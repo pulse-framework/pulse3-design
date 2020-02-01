@@ -4,13 +4,16 @@ import Action from './state';
 import Collection from './collection/collection';
 import Request from './request/request';
 import SubController from './sub';
+import Runtime from './runtime';
 
 export interface PulseConfig {}
 
 class Pulse {
   public subController: SubController;
+  public runtime: Runtime;
   constructor(config: PulseConfig) {
     this.subController = new SubController(this);
+    this.runtime = new Runtime(this);
   }
 
   public State = (state: any) => new State(this, state);

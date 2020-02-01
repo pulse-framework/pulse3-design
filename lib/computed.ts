@@ -6,12 +6,17 @@ export default class Computed extends State {
   constructor(instance: Pulse, deps: Array<State>, func: Function) {
     super(instance, null);
 
-    deps.forEach(state => state.dep.deps.add(state.dep));
-
     this.func = func;
+
+    deps.forEach(state => state.dep.deps.add(this));
+
+    this.mutation = () => this.run();
+
+    // initial
     this.run();
   }
-  public run() {
+
+  run() {
     const output = this.func();
     this.set(output);
   }

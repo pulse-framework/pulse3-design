@@ -1,25 +1,34 @@
 import Dep from './dep';
 import Pulse from './root';
+import { copy } from './utils';
 
 export default class State {
   public value: any = null;
   public previousState: any = null;
   public dep: Dep = null;
+  public nextState: any = null;
+
+  // Mutation method returns new value, can be overwritten by extended classes.
+  public mutation: () => any;
+
   public set bind(value: any) {
     this.set(value);
   }
   public get bind(): any {
     return this.value;
   }
-  constructor(private instance: Pulse, initalState: any, deps?: Array<Dep>) {
-    this.dep = new Dep(this, deps);
-    // this.dep = new Dep();
+  constructor(
+    private instance: Pulse,
+    initalState: any,
+    deps: Array<Dep> = []
+  ) {
+    this.dep = new Dep(deps);
     this.value = initalState;
+    this.nextState = copy(initalState);
   }
   public set(newState: any): this {
-    // dispatch self to runtime
-    this.previousState = this.value;
-    this.perform({ value: newState }); // REPLACE WITH ACTUAL RUNTIME CALL
+    // ingest update using most basic mutation method
+    this.instance.runtime.ingest(this, newState);
 
     return this;
   }
@@ -39,10 +48,7 @@ export default class State {
     return this;
   }
 
-  public perform(job): void {
-    this.privateWrite(job.value);
-  }
-  private privateWrite(value: any): void {
+  public privateWrite(value: any): void {
     this.value = value;
   }
 }

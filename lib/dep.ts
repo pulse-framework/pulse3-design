@@ -1,8 +1,9 @@
 import { ComponentContainer } from './sub';
+import State from './state';
 export default class Dep {
-  public deps: Set<Dep> = new Set();
+  public deps: Set<any> = new Set();
   public subs: Set<ComponentContainer> = new Set();
-  constructor(private context: any, initialDeps?: Array<Dep>) {
+  constructor(initialDeps?: Array<Dep>) {
     if (initialDeps) initialDeps.forEach(dep => this.deps.add(dep));
   }
 }

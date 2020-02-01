@@ -21,6 +21,23 @@ export const collectionFunctions = [
   'remove'
 ];
 
+export const copy = val => {
+  if (isWatchableObject(val)) val = { ...val };
+  else if (Array.isArray(val)) val = [...val];
+
+  return val;
+};
+
+// groups are defined by the user as an array of strings, this converts them into object/keys
+export function normalizeGroups(groupsAsArray: any = []) {
+  const groups: object = {};
+  for (let i = 0; i < groupsAsArray.length; i++) {
+    const groupName = groupsAsArray[i];
+    groups[groupName] = [];
+  }
+  return groups;
+}
+
 export function defineConfig(config, defaults) {
   return { ...defaults, ...config };
 }
