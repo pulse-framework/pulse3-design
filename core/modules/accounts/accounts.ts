@@ -1,18 +1,16 @@
-import { App } from '../../index';
-import { ACCOUNT_TEMPLATE, create } from './builder';
-/**
- * ---- Interfaces ----
- */
+import App from '../../core';
+import { ACCOUNT_TEMPLATE } from './builder';
+
+// ---- Interfaces ----
+// Define a interface in typescript for your collection data structure
 export interface AccountBody {
   id: number;
   email: string;
   status?: string;
 }
 
-/**
- *  ---- State ----
- *  Define state with defaults and modifiers
- */
+// ---- State ----
+// Define state with defaults and modifiers
 export const CURRENT_ACCOUNT_ID = App.State(0);
 
 export const SOME_SWITCH = App.State(false)
@@ -24,10 +22,8 @@ export const { THING_ONE, THING_TWO } = App.StateGroup({
   THING_TWO: false
 });
 
-/**
- * ---- Actions ----
- * Featuring state mutations.
- */
+// ---- Actions ----
+// Actions are now simply functions. This example is featuring state mutation examples.
 export function doStuff(yes: string): void {
   // regular set function, will completely replace value
   CURRENT_ACCOUNT_ID.set(2);
@@ -37,19 +33,15 @@ export function doStuff(yes: string): void {
   ACCOUNT_TEMPLATE.patch({ username: 'jamie' });
 }
 
-/**
- * ---- Collections ----
- * Create and export Collection class for storage
- */
+// ---- Collections ----
+// Create a collection instance
 export const AccountCollection = App.Collection({
   primaryKey: 'id',
   groups: ['AUTHED']
 });
 
-/**
- * ---- Computed ----
- * The first parameter is the dependencies for this computed function
- */
+// --- Computed ----
+// The first parameter is the dependencies for this computed function
 export const myAccount = App.Computed(
   [CURRENT_ACCOUNT_ID, SOME_SWITCH, ACCOUNT_TEMPLATE],
   function() {
@@ -57,8 +49,6 @@ export const myAccount = App.Computed(
   }
 );
 
-/**
- * ---- Watchers ----
- * The watcher is stored inside the State class itself
- */
+// ---- Watchers ----
+// The watcher is stored inside the State class itself
 CURRENT_ACCOUNT_ID.watch((newVal, oldVal) => console.log(newVal, oldVal));

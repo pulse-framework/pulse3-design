@@ -2,7 +2,7 @@
   "name": "pulse",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "memes.ts",
   "directories": {
     "example": "example",
     "lib": "lib"
@@ -13,6 +13,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "typescript": "3.7.5"
+  },
+  "dependencies": {
+    "react": "16.12.0"
   }
 }
