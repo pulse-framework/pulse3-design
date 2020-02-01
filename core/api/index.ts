@@ -1,4 +1,4 @@
-import { App } from '../index';
+import App from '../core';
 
 export const BASE_URL = App.State('https://api.notify.me').persist();
 

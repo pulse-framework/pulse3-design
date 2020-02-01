@@ -45,9 +45,13 @@ export const AccountCollection = App.Collection({
 export const myAccount = App.Computed(
   [CURRENT_ACCOUNT_ID, SOME_SWITCH, ACCOUNT_TEMPLATE],
   function() {
+    return 'hi!!!';
     return AccountCollection.findById(CURRENT_ACCOUNT_ID.value);
   }
 );
+export const memeTime = App.Computed([myAccount], function() {
+  return 'NAME JEFF';
+});
 
 // ---- Watchers ----
 // The watcher is stored inside the State class itself

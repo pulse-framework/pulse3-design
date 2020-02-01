@@ -1,24 +1,26 @@
 import Dep from './Dep';
+import Pulse from './Root';
 
 export default class State {
   public value: any = null;
   public previousState: any = null;
-  private dep: Dep = null;
+  public dep: Dep = null;
   public set bind(value: any) {
     this.set(value);
   }
   public get bind(): any {
     return this.value;
   }
-  constructor(initalState: any) {
-    this.dep = new Dep(this);
+  constructor(private instance: Pulse, initalState: any, deps?: Array<Dep>) {
+    this.dep = new Dep(this, deps);
     // this.dep = new Dep();
     this.value = initalState;
   }
   public set(newState: any): this {
     // dispatch self to runtime
+    this.previousState = this.value;
+    this.perform({ value: newState }); // REPLACE WITH ACTUAL RUNTIME CALL
 
-    this.runtimeUpdate({ value: newState });
     return this;
   }
   public patch(targetWithChange): this {
@@ -37,11 +39,14 @@ export default class State {
     return this;
   }
 
-  public runtimeUpdate(job) {
+  public perform(job): void {
     this.privateWrite(job.value);
   }
-
   private privateWrite(value: any): void {
     this.value = value;
   }
 }
+// index state
+// group calc then state
+
+// all runtime jobs are state

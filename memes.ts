@@ -1,6 +1,6 @@
 import core from './core';
 
-window['pulse'] = core;
+global['pulse'] = core;
 console.log(core);
 
 // // direct state mutation is still possible
