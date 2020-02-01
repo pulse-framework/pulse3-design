@@ -1,5 +1,5 @@
-import Dep from './Dep';
-import Pulse from './Root';
+import Dep from './dep';
+import Pulse from './root';
 
 export default class State {
   public value: any = null;

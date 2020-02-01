@@ -1,6 +1,6 @@
-import Pulse from '../../core/Root';
-import Group from './Group';
-import { defineConfig } from '../../helpers';
+import Pulse from '../root';
+import Group from './group';
+import { defineConfig } from '../helpers';
 
 export interface CollectionConfig {
   groups: Array<string>;

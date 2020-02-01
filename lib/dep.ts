@@ -1,4 +1,4 @@
-import { ComponentContainer } from './SubController';
+import { ComponentContainer } from './sub';
 export default class Dep {
   public deps: Set<Dep> = new Set();
   public subs: Set<ComponentContainer> = new Set();

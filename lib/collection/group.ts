@@ -1,5 +1,5 @@
-import Dep from '../../core/Dep';
-import Pulse, { State, Collection } from '../../core/Root';
+import Dep from '../dep';
+import Pulse, { State, Collection } from '../root';
 
 export default class Group extends State {
   private func: Function;
