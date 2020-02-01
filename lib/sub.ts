@@ -1,7 +1,7 @@
 // Global Subscription Controller
 // This class handles external components subscribing to Pulse.
 
-import { genId, normalizeMap } from './helpers';
+import { genId } from './utils';
 import Dep from './dep';
 import Pulse from './root';
 
