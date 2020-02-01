@@ -43,6 +43,7 @@ export default class State {
     this.storageKey = key;
     let value = this.instance.storage.get(this.storageKey);
     if (value) this.instance.runtime.ingest(this, value);
+    else this.instance.storage.set(this.storageKey, this.value);
     return this;
   }
   public type(type: any): this {
@@ -65,6 +66,7 @@ export default class State {
 
   public privateWrite(value: any): void {
     this.value = value;
+    if (this.storageKey) this.instance.storage.set(this.storageKey, value);
   }
 }
 
