@@ -1,6 +1,7 @@
+import { Request } from '../../lib/root';
 import App from '../core';
 
-export const BASE_URL = App.State('https://api.notify.me').persist();
+export const BASE_URL = App.State('https://api.notify.me').persist('BASE_URL');
 
 export const HEADERS = App.State({
   'Access-Control-Allow-Origin': 'https://notify.best',
@@ -8,11 +9,9 @@ export const HEADERS = App.State({
   Dev: false
 });
 
-export const NotifyAPI = {};
-
-// export const NotifyAPI = App.Request.API({
-//   baseURL: BASE_URL.value,
-//   credentials: 'include',
-//   timeout: 10000,
-//   headers: HEADERS.value
-// });
+export const NotifyAPI = Request.API({
+  baseURL: BASE_URL.value,
+  credentials: 'include',
+  timeout: 10000,
+  headers: HEADERS.value
+});

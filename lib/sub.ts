@@ -32,18 +32,9 @@ export class ComponentContainer {
 }
 
 export default class SubController {
-  public subscribingComponentKey: number = 0;
-  public trackingComponent: boolean | string = false;
-
-  // used by discoverDeps to get several dep classes
-  public trackAllDeps: boolean = false;
-  public trackedDeps: Set<Dep> = new Set();
   public componentStore: { [key: string]: ComponentContainer } = {};
-  public root: Pulse;
 
-  constructor(root: Pulse) {
-    this.root = root;
-  }
+  constructor(public instance: Pulse) {}
 
   public registerComponent(instance, config, depsFunc) {
     let componentContainer = new ComponentContainer(instance, config, depsFunc);

@@ -1,10 +1,10 @@
 import './core';
 
-// import { NotifyAPI } from './api';
-
 // Controllers
-import { AccountController } from './modules/accounts';
+import accounts from './modules/accounts';
+import devices from './modules/devices';
 
 export default {
-  accounts: AccountController
+  accounts,
+  devices
 };

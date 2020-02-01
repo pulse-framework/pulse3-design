@@ -1,29 +1,32 @@
-import State from './state';
+import State, { StateGroup } from './state';
 import Computed from './computed';
 import Action from './state';
 import Collection from './collection/collection';
 import Request from './request/request';
 import SubController from './sub';
 import Runtime from './runtime';
+import Storage from './storage';
 
-export interface PulseConfig {}
+export interface PulseConfig {
+  storagePrefix?: string;
+  computedDefault?: any;
+  framework?: any;
+  storage?: {};
+}
 
 class Pulse {
   public subController: SubController;
   public runtime: Runtime;
-  constructor(config: PulseConfig) {
+  public storage: Storage;
+  constructor(public config: PulseConfig) {
     this.subController = new SubController(this);
     this.runtime = new Runtime(this);
+    this.storage = new Storage(this, config.storage || {});
   }
 
   public State = (state: any) => new State(this, state);
 
-  public StateGroup = (stateGroup: Object) => {
-    let group: any = {};
-    for (let name in stateGroup)
-      group[name] = new State(this, stateGroup[name]);
-    return group;
-  };
+  public StateGroup = (stateGroup: any) => StateGroup(this, stateGroup);
 
   public Action = (config: any) => new Collection(this);
   public Reactive = (config: any) => new Collection(this);
@@ -33,4 +36,7 @@ class Pulse {
   public Collection = (config: any) => new Collection(this, config);
 }
 export default Pulse;
-export { State, Computed, Action, Collection, Request };
+export { StateGroup, State, Computed, Action, Collection, Request };
+
+export const persist = (items: Array<State>): void =>
+  items.forEach(item => item.persist(item.storageKey));

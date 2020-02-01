@@ -7,7 +7,8 @@ export default class State {
   public previousState: any = null;
   public dep: Dep = null;
   public nextState: any = null;
-
+  public isSet: boolean = false;
+  public storageKey: string;
   // Mutation method returns new value, can be overwritten by extended classes.
   public mutation: () => any;
 
@@ -19,7 +20,7 @@ export default class State {
   }
   constructor(
     private instance: Pulse,
-    initalState: any,
+    public initalState: any,
     deps: Array<Dep> = []
   ) {
     this.dep = new Dep(deps);
@@ -30,12 +31,18 @@ export default class State {
     // ingest update using most basic mutation method
     this.instance.runtime.ingest(this, newState);
 
+    this.isSet = true;
+
     return this;
   }
   public patch(targetWithChange): this {
     return this;
   }
-  public persist(): this {
+  public persist(key): this {
+    if (!key) console.error('Pulse persist error: Missing storage key');
+    this.storageKey = key;
+    let value = this.instance.storage.get(this.storageKey);
+    if (value) this.instance.runtime.ingest(this, value);
     return this;
   }
   public type(type: any): this {
@@ -47,12 +54,28 @@ export default class State {
   public toggle(): this {
     return this;
   }
+  public reset(): this {
+    // this should go through runtime, but eh
+    this.isSet = false;
+    this.previousState = null;
+    this.privateWrite(this.initalState);
+    this.instance.storage.remove(this.storageKey);
+    return this;
+  }
 
   public privateWrite(value: any): void {
     this.value = value;
   }
 }
-// index state
-// group calc then state
 
-// all runtime jobs are state
+export const StateGroup = (
+  instance: Pulse,
+  stateGroup: Object
+): { [key: string]: State } => {
+  let group: any = {};
+  for (let name in stateGroup) {
+    group[name] = new State(instance, stateGroup[name]);
+    group[name].storageKey = name;
+  }
+  return group;
+};
